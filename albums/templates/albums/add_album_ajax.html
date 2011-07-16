@@ -1,0 +1,12 @@
+{% load i18n %}
+
+<h1>{% trans "Add Album" %}</h1>
+
+<form method="post" action="{% url albums_add %}" id="add_album">
+{{form.as_p}}
+<input type="submit" />
+</form>
+
+<script type="text/javascript">
+$(slug_setup);
+</script>

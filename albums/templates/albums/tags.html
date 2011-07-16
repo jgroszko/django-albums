@@ -1,0 +1,26 @@
+{% extends "albums/base.html" %}
+
+{% load i18n %}
+{% load albumitems %}
+{% load humanize %}
+{% load pagination_tags %}
+
+{% block body %}
+
+<h1>{% trans "Video Tags" %}</h1>
+
+{% autopaginate tag_info 5 %}
+{% paginate %}
+
+{% for tag in tag_info %}
+<div>
+  <h3><a href="{% url albums_tag tag.tag %}">{{tag.tag}} ({{tag.count}})</a></h3>
+  <hr />
+  {% for video in tag.items %}
+  {% albumitem_preview video %}
+  {% endfor %}
+<br style="clear: both;" />
+</div>
+{% endfor %}
+{% paginate %}
+{% endblock %}

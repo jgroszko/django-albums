@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Add Video" %}{% endblock %}
+
+{% block body %}
+<br/>
+<h1>{% trans "Add Videos" %}</h1>
+
+{% include "albums/swfupload.html" %}
+
+{% endblock %}

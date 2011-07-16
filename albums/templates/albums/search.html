@@ -1,0 +1,9 @@
+{% extends "search/search.html" %}
+{% load albumitems %}
+
+{% block results %}
+{% if result %}
+{% albumitem_preview result.object %}
+<br style="clear: both;" />
+{% endif %}
+{% endblock %}

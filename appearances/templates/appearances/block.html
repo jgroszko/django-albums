@@ -1,0 +1,20 @@
+{% load media %}
+<div id="appearances_list">
+{% include "appearances/list_for_object.html" %}
+</div>
+{% if can_edit %}
+<div id="appearances_add">
+  <form action="{% url appearances_add %}" method="POST" onsubmit="appearances_ajax(event); return false;" >
+    <input type="hidden" name="content_type" value="{{content_type}}" />
+    <input type="hidden" name="object_pk" value="{{object_pk}}" />
+    <input type="text" name="user" size=10 style="display: inline;" />
+    <input type="image" src="{% media_url "images/plus.png" %}" style="display: inline;" />
+  </form>
+  <script type="text/javascript">
+    $(function() {
+        $("input[name=user]").autocomplete({
+            source: "{% url profile_username_autocomplete %}",
+        });
+    });
+  </script>
+</div>{% endif %}

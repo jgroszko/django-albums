@@ -1,0 +1,35 @@
+{% extends "albums/base.html" %}
+
+{% load i18n media %}
+
+{% block head_title %}{% trans "Edit" %} {{item.title}}{% endblock %}
+
+{% block body %}
+<div class="rightcolumn">
+  <div class="rightlinks ui-widget-content">
+    {% if item.parent %}
+    <div class="image-link">
+      <img src="{% media_url "images/left_arrow.png" %}" />
+      <a href="{% url albums_item item.parent.slug item.slug %}">{% trans "Return to" %} {{item.title}}</a>
+    </div>
+    {% else %}
+    <div>
+      <img src="{% media_url "images/left_arrow.png" %}" />
+      <a href="{% url albums_album item.slug %}">{% trans "Return to" %} {{item.title}}</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="leftcolumn">
+  <h1>{% trans "Edit" %} {{title}}</h1>
+  <form method="post">
+      {{form.as_p}}
+      <input type="submit" />
+  </form>
+</div>
+<script type="text/javascript">
+$(slug_setup);
+</script>
+
+{% endblock %}

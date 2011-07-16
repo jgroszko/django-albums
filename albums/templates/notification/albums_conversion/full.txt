@@ -1,0 +1,8 @@
+{% if success %}
+{{object.title}} has been successfully converted!
+
+You may view it at
+{{absolute_uri}}{{object.get_absolute_url}}
+{% else %}
+Your item {{title}} was not successfully converted, and has been deleted.
+{% endif %}

@@ -1,0 +1,9 @@
+{% load media %}
+<div class="albumitem_waiting" id="{{ai.parent.slug}}_{{ai.slug}}">
+  <img width="{{size}}" height="{{size}}" src="{% media_url "images/converting.png" %}" />
+  <script type="text/javascript">
+    $(document).ready(function(){
+      albumitem_waiting("{% url albums_thumbstatus ai.parent.slug ai.slug %}", {{size}});
+    });
+  </script>
+</div>

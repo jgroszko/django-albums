@@ -1,0 +1,57 @@
+{% extends "albums/base.html" %}
+
+{% load i18n media %}
+{% load albumitems %}
+{% load pagination_tags %}
+
+{% block head_title %}{{object.title}}{% endblock %}
+
+{% block body %}
+
+<div class="rightcolumn">
+  {% if can_edit %}
+  <div class="ui-widget-content rightlinks">
+    <div class="image-link">
+      <img src="{% media_url "images/plus.png" %}" />
+      <a class="ui-realpopup" href="{% url albums_add_photos object.slug %}">{% trans "Add Photos" %}</a>
+    </div>
+    {% if can_add_video %}<div class="image-link">
+      <img src="{% media_url "images/plus.png" %}" />
+      <a class="ui-realpopup" href="{% url albums_add_videos object.slug %}">{% trans "Add Video" %}</a>
+    </div>{% endif %}
+    <br />
+    <div class="image-link">
+      <img src="{% media_url "images/pencil.png" %}" />
+      <a href="{% url albums_album_edit object.slug %}">{% trans "Edit Album" %}</a>
+    </div>
+    {% if can_delete %}<div class="image-link">
+      <img src="{% media_url "images/close.png" %}" />
+      <a href="{% url albums_album_delete object.slug %}">{% trans "Delete Album" %}</a>
+    </div>{% endif %}
+    {% endif %}
+  </div>
+</div>
+
+<div class="leftcolumn">
+<h1>{{object.title}}</h1>
+
+<p>{% trans "Owned by" %} {% for owner in object.owners.all %}<a href="{% url profiles.views.profile owner %}">{{owner}}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+
+{% if object.description %}
+<div class="albumitem-description ui-widget-content">
+  {{object.description}}
+</div>
+{% endif %}
+
+{% autopaginate children 19 %}
+{% paginate %}
+
+<div>
+{% for ai in children %}
+{% albumitem_preview ai %}
+{% endfor %}
+</div>
+{% paginate %}
+</div>
+
+{% endblock %}

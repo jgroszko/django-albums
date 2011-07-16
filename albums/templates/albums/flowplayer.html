@@ -1,0 +1,48 @@
+{% load media %}
+
+{% js "flowplayer/example/flowplayer-3.2.4.min.js" %}
+
+<a href="{{mp4_url}}"
+   style="display:block;width:640px;height:480px"
+   id="player">
+</a>
+
+<script type="text/javascript">
+  $(function() {
+  flowplayer("player", "{% media_url "flowplayer/flowplayer-3.2.5.swf" %}",
+    {
+{% if net_connect_url %}
+      plugins: {
+        rtmp: {
+          url: '{% media_url "flowplayer/flowplayer.rtmp-3.2.3.swf" %}',
+          netConnectionUrl: '{{net_connect_url}}',
+        },
+        controls: {
+          url: '{% media_url "flowplayer/flowplayer.controls-3.2.3.swf" %}',
+        }
+      },
+{% endif %}
+      clip: {
+        {% if net_connect_url %}provider: 'rtmp',{% endif %}
+        autoPlay: true,
+        autoBuffering: true,
+        onStart: function(clip) {
+          if(_gaq)
+            _gaq.push(['_trackEvent', 'Albums', 'Play', window.location]);
+        },
+        onPause: function(clip) {
+          if(_gaq)
+            _gaq.push(['_trackEvent', 'Albums', 'Pause', window.location, parseInt(this.getTime())]);
+        },
+        onStop: function(clip) {
+          if(_gaq)
+            _gaq.push(['_trackEvent', 'Albums', 'Stop', window.location, parseInt(this.getTime())]);
+        },
+        onFinish: function(clip) {
+          if(_gaq)
+            _gaq.push(['_trackEvent', 'Albums', 'Finish', window.location]);
+        }
+      }
+    });
+  });
+</script>

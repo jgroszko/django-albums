@@ -1,0 +1,65 @@
+{% extends "albums/base.html" %}
+
+{% load i18n %}
+{% load albumitems %}
+{% load pagination_tags %}
+{% load media %}
+
+{% block head_title %}{% if title %}{{title}}{% else %}Videos{% endif %}{% endblock %}
+
+{% block body %}
+
+<div class="rightcolumn">
+  <div class="rightlinks ui-widget-content">
+    <div class="image-link"><img src="{% media_url "images/plus.png" %}" /><a href="{% url albums_add_videos %}" class="ui-realpopup">{% trans "Upload Videos" %}</a></div>
+    <div class="image-link"><img src="{% media_url "images/plus.png" %}" /><a href="{% url albums_add_photos %}" class="ui-realpopup">{% trans "Upload Photos" %}</a></div>
+    <br />
+    <div class="image-link"><img src="{% media_url "images/star.png" %}" /><a href="{% url albums_list_favorites_user user %}">{% trans "My Favorites" %}</a></div>
+    <div class="image-link"><img src="{% media_url "images/folder.png" %}" /><a href="{% url albums_list_user user %}">{% trans "My Albums" %}</a></div>
+    <div class="image-link"><img src="{% media_url "images/folder.png" %}" /><a href="{% url albums_list %}">{% trans "All Albums" %}</a></div>
+  </div>
+
+  <h2>{% trans "Search" %}</h2>
+  <div class="searchbox">
+    <form method="get" action="{% url albums_search %}">
+      <input type="text" name="q" /><input type="image" src="{% media_url "images/magnifier.png" %}" />
+    </form>
+  </div>
+
+  <h2>{% trans "Top Tags" %}</h2>
+  <hr />
+  <div class="tags">
+    <ul>
+      {% for tag in top_tags|slice:":10" %}
+      <li><span class="tag"><a href="{% url albums_tag tag %}">{{tag.name}}</a></span><span class="count">{{tag.items__count}}</span></li>
+      {% endfor %}
+    </ul>
+  </div>
+  <a href="{% url albums_tags %}">{% trans "More" %}</a>
+</div>
+
+<div class="leftcolumn">
+  <h2>Top Rated</h2>
+  <hr>
+  <div class="albumitems">
+    {% for album in top_rated|slice:":6" %}
+    {% albumitem_preview album %}
+    {% endfor %}
+    <br style="clear: both;" />
+  </div>
+  <a href="{% url albums_ratings %}">{% trans "More" %}</a>
+
+  <div id="mostrecent">
+    <h2>{% trans "Recent Uploads" %}</h2>
+    <hr>
+    <div class="albumitems">
+      {% for album in most_recent|slice:":6" %}
+      {% albumitem_preview album %}
+      {% endfor %}
+      <br style="clear: both;" />
+    </div>
+    <a href="{% url albums_recent_uploads %}">{% trans "More" %}</a>
+  </div>
+</div>
+
+{% endblock %}

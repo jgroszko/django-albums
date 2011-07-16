@@ -1,0 +1,23 @@
+{% load media %}
+{% load avatar_tags %}
+
+<li class="appearances_item">
+  <div class="appearances_avatar"><a href="{% url profile_detail a.user %}">{% avatar a.user 40 %}</a></div>
+  <div class="appearances_name">
+    <a href="{% url profile_detail a.user %}">{{a.user}}</a>
+    {% if show_status %}
+    <form method="post" action="{% url appearances_update %}" onsubmit="appearances_ajax(event); return false;">
+      <input type="hidden" name="id" value="{{a.pk}}" />
+      {% if can_confirm %}<input type="image" src="{% media_url "images/check_mark.png" %}" name="confirm" alt="Confirm" />{% endif %}
+      {% if can_ignore %}<input type="image" src="{% media_url "images/forbidden_sign.png" %}" name="ignore" alt="Ignore" />{% endif %}
+      {% if can_delete %}<input type="image" src="{% media_url "images/close.png" %}" name="delete" alt="Delete" />{% endif %}
+    </form>
+    {% endif %}
+  </div>
+  <div class="appearances_description">
+    {{a.description}}
+    {% if can_edit %}
+    <img id="{{a.pk}}" src="{% media_url "images/pencil.png" %}" alt="Edit Description" onclick="appearances_make_description_input(event, '{% url appearances_update %}');" />
+    {% endif %}
+  </div>
+</li>

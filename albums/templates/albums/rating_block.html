@@ -1,0 +1,5 @@
+<span id="user_vote" class="rating-{{object.rating.get_rating|get_digit:"1"}}"
+	   onmousemove="rating_onmouseover(event);"
+	   onmouseout="rating_onmouseout(event);"
+	   onmouseup="rating_onmouseup(event);"></span>({{object.rating.votes}} votes)
+<script type="text/javascript">var user_vote = {{user_vote|get_digit:"1"}};</script>

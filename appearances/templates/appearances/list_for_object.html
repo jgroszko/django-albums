@@ -1,0 +1,24 @@
+{% load appearances_tags %}
+{% load i18n %}
+{% if appearances %}
+{% if can_edit %}
+
+{% regroup appearances by get_status_display as appearances_by_status %}
+
+{% for appearance in appearances_by_status %}
+<small><strong>{{appearance.grouper}}</strong></small>
+<ul class="appearances">
+  {% for a in appearance.list %}
+  {% appearance_item a %}
+  {% endfor %}
+</ul>
+{% endfor %}
+
+{% else %}
+<ul class="appearances">
+  {% for a in appearances %}
+  {% appearance_item a %}
+  {% endfor %}
+</ul>
+{% endif %}
+{% endif %}

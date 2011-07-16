@@ -1,0 +1,118 @@
+{% extends "albums/base.html" %}
+
+{% load i18n media %}
+{% load humanize %}
+{% load appearances_tags %}
+{% load comments %}
+{% load avatar_tags %}
+{% load albumitems %}
+
+{% block head_title %}{{object.title}}{% endblock %}
+
+{% block body %}
+<div class="rightcolumn">
+  <p>
+    {% avatar object.submitter %}
+    <a href="{% url profiles.views.profile object.submitter %}">{{object.submitter}}</a>
+  </p>
+  <p class="tags">
+    {% for tag in object.tagss %}
+    <span class="tag"><a href="{% url albums_tag tag %}">{{tag.name}}</a></span>
+    {% endfor %}
+  </p>
+
+  {% appearances object %}
+
+  <hr />
+
+  <p>
+    <img src="{% media_url "images/folder.png" %}" /> <a href="{% url albums_album parent.slug %}">{{parent.title}}</a>
+  </p>
+
+  {% if next %}
+  <div class="nextprev">
+    <div class="nextprev-thumb">
+      <a href="{% url albums_item parent.slug next.slug %}">
+	<img src="{% albumitem_thumb_url next 80 %}" alt="{{next.title}}" class="nextprev" />
+      </a>
+    </div>
+    <div>{% trans "Next:" %}</div>
+    <div><a href="{% url albums_item parent.slug next.slug %}">{{next.title}}</a></div>
+  </div>
+  <br style="clear: both;" />
+  {% endif %}
+  {% if previous %}
+  <div class="nextprev">
+    <div class="nextprev-thumb">
+      <a href="{% url albums_item parent.slug previous.slug %}">
+	<img src="{% albumitem_thumb_url previous 80 %}" alt="{{previous.title}}" class="nextprev" />
+      </a>
+    </div>
+    <div>{% trans "Prev:" %}</div>
+    <div><a href="{% url albums_item parent.slug previous.slug %}">{{previous.title}}</a></div>
+  </div>
+  <br style="clear: both;" />
+  {% endif %}
+  
+  {% if can_edit %}
+  <div class="rightlinks ui-widget-content">
+    <div class="image-link">
+      <img src="{% media_url "images/pencil.png" %}" />
+      <a href="{% url albums_item_edit parent.slug object.slug %}">{% trans "Edit Item" %}</a>
+    </div>
+    <div class="image-link">
+      <img src="{% media_url "images/star.png" %}" />
+      <a href="" onclick="highlight_item('{% url albums_highlight parent.slug object.slug %}'); return false;">{% trans "Highlight Item" %}</a>
+    </div>
+    <div class="image-link">
+      <img src="{% media_url "images/close.png" %}" />
+      <a href="{% url albums_item_delete parent.slug object.slug %}">{% trans "Delete Item" %}</a>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<div class="leftcolumn">
+<h1>{{object.title}}</h1>
+
+{% block content %}
+{% endblock %}
+
+{% if object.allow_ratings %}
+<div id="rating-container" class="underblock">
+{% include "albums/rating_block.html" %}
+</div>
+{% endif %}
+
+<div class="favorite underblock" style="display: inline-block; margin-top: 10px;">
+{% if is_favorite %}
+<a id="favorite" href="javascript:favorite_toggle();">Unfavorite</a>
+{% else %}
+<a id="favorite" href="javascript:favorite_toggle();">Favorite</a>
+{% endif %}
+</div>
+
+<div class="underblock" style="display: none;">
+<a href="#">Flag</a>
+</div>
+
+{% if object.description %}
+<div class="albumitem-description ui-widget-content">
+  {{ object.description }}
+</div>
+{% endif %}
+
+{% if object.allow_comments %}
+<h3>Comments</h3>
+{% get_comment_list for object as comment_list %}
+<div id="comments">
+  {% for comment in comment_list %}
+  {% include "comments/comment.html" %}
+  {% endfor %}
+</div>
+<div id="comment_form_container">
+{% render_comment_form for object %}
+</div>
+{% endif %}
+</div>
+{% endblock body %}

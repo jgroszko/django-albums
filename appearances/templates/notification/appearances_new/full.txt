@@ -1,0 +1,4 @@
+You have been tagged in {{a.to_object.title}} by {{a.to_object.submitter}} ({{absolute_uri}}{{a.to_object.get_absolute_url}})
+
+Pending appearances can be managed at
+{{absolute_uri}}{% url appearances_list %}

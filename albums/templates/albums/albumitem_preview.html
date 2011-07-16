@@ -1,0 +1,36 @@
+{% load albumitems %}
+{% load i18n media %}
+{% load comments %}
+
+<div class="item ui-widget-content">
+  <div class="thumbnail"><a href="{% albumitem_url ai %}">{% albumitem_thumb ai 100 %}</a></div>
+  <div class="details">
+    <div class="title">
+      {% if ai.duration_str %}
+      <img src="{% media_url "images/tv.png" %}" />
+      {% else %}
+      {% if not ai.children %}
+      <img src="{% media_url "images/photo.png" %}" />
+      {% endif %}
+      {% endif %}
+      <a href="{% albumitem_url ai %}">{{ai.title}}</a>
+    </div>
+    {% if ai.submitter %}<div class="submitter"><img src="{% media_url "images/user.png" %}" /> <a href="{% url profile_detail ai.submitter %}">{{ai.submitter}}</a></div>{% endif %}
+    {% if ai.owners %}<div class="submitter"><img src="{% media_url "images/user.png" %}" />{% for o in ai.owners.all %} <a href="{% url profile_detail o %}">{{o}}</a>{% if not forloop.last %},{% endif %}{% endfor %}</div>{% endif %}
+    {% if ai.children %}<div><img src="{% media_url "images/folder.png" %}" /> {{ai.children.count}} {% trans "Items" %}</div>{% endif %}
+    <div class="info">
+      {% if ai.rating.votes %}
+      <img src="{% media_url "images/star.png" %}" />
+      {{ai.rating.get_rating|get_digit:"1"}}
+      {% endif %}
+      {% if ai.allow_comments %}
+      {% get_comment_count for ai as comment_count %}
+      {% if comment_count %}
+      <img src="{% media_url "images/comment_bubble.png" %}" />
+      {{comment_count}}
+      {% endif %}
+      {% endif %}
+    </div>
+  </div>
+  <br style="clear: both;" />
+</div>

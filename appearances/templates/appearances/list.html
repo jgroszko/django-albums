@@ -1,0 +1,36 @@
+{% extends "profiles/base.html" %}
+{% load media %}
+{% load albumitems %}
+
+{% block body %}
+<div class="counts {{status_str}}">
+<div class="Confirmed"><a href="{% url appearances_list "confirmed" %}">Confirmed ({{confirmed_count}})</a></div>
+<div class="Pending"><a href="{% url appearances_list "pending" %}">Pending ({{pending_count}})</a></div>
+<div class="Ignored"><a href="{% url appearances_list "ignored" %}">Ignored ({{ignored_count}})</a></div>
+</div>
+
+<br /><br />
+
+<table class="appearances">
+<tr><th colspan="2">Title</th><th>Description</th><th colspan="3">Action</th></tr>
+{% for a in appearances %}
+<tr>
+  <form method="post">
+    <input type="hidden" name="id" value="{{a.a.pk}}" />
+    <td><a href="{{a.a.to_object.get_absolute_url}}">{% albumitem_thumb a.a.to_object %}</a></td>
+    <td><a href="{{a.a.to_object.get_absolute_url}}">{{ a.a.to_object.title }}</a></td>
+    <td>{{ a.a.description }}</td>
+    <td>{% if a.can_confirm %}
+      <input type="image" name="confirm" src="{% media_url "add_user.png" %}" alt="Confirm" />
+      {% endif %}</td>
+    <td>{% if a.can_ignore %}
+      <input type="image" name="ignore" src="{% media_url "edit_user.png" %}" alt="Ignore" />
+      {% endif %}</td>
+    <td>{% if a.can_delete %}
+      <input type="image" name="delete" src="{% media_url "delete_user.png" %}" alt="Delete" />
+      {% endif %}</td>
+  </form>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

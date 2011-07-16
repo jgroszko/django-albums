@@ -1,0 +1,9 @@
+{{ object.title }}
+{{ object.title }}
+{{ object.title }}
+{% if object.description %}{{ object.description }}{% endif %}
+{{ object.submitter }}
+{{ object.tags }}
+{{ object.tags }}
+{{ object.tags }}
+{{ object.parent.title }}

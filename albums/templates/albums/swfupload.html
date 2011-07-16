@@ -1,0 +1,40 @@
+{% load i18n %}
+{% load media %}
+<script type="text/javascript">
+$(function() {
+  slug_setup();
+
+  setup_swfupload('{{upload_url}}', '{% media_url "swfupload/swfupload.swf" %}', '{{file_field_name}}');
+});
+</script>
+
+<div>
+  <form id="all_files">
+    {{album_form.as_p}}
+  </form>
+</div>
+
+<div id="files_list">
+  <div id="file_form" style="display: none; width: 500px; margin-bottom: 10px;">
+    <div class="ui-widget-header" style="padding: 5px 10px;">
+      <div style="float: right;"><img id="close" src="{% media_url "images/close.png" %}" /></div>
+    </div>
+    <div class="ui-widget-content" style="padding: 10px;">
+      <form>
+      {{form.as_p}}
+      </form>
+      <div id="progress"></div>
+    </div>
+  </div>
+</div>
+
+<div id="startuploadsdiv">
+  <span id="spanButtonPlaceholder"></span>
+  <button id="swfupload_button">Browse</button>
+
+  <span id="startuploads" style="display: none;">{% trans "Upload" %}</span>
+  
+  <span id="gotoalbum" style="display: none;">{% trans "Go to Album" %}</span>
+
+  <p style="display: none;">{% trans "This window may be safely closed once all uploads have completed." %}</p>
+</div>

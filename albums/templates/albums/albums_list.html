@@ -1,0 +1,31 @@
+{% extends "albums/base.html" %}
+
+{% load i18n media %}
+{% load albumitems %}
+{% load pagination_tags %}
+
+{% block head_title %}{{title}}{% endblock %}
+
+{% block body %}
+
+{% if add_album %}
+<div class="rightcolumn">
+  <div class="image-link">
+    <img src="{% media_url "images/plus.png" %}" /><a href="{% url albums_add %}">{% trans "Add Album" %}</a>
+  </div>
+</div>
+{% endif %}
+
+<div class="leftcolumn">
+<h1>{{title}}</h1>
+<hr />
+{% autopaginate object_list 20 %}
+{% paginate %}
+
+{% for album in object_list %}
+{% albumitem_preview album %}
+{% endfor %}
+<br style="clear: both;" />
+{% paginate %}
+</div>
+{% endblock %}

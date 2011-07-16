@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Add Photos" %}{% endblock %}
+
+{% block body %}
+<br/>
+<h1>{% trans "Add Photos" %}</h1>
+
+{% include "albums/swfupload.html" %}
+
+{% endblock %}
