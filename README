@@ -1,4 +1,9 @@
 django-albums
+by John Groszko <grosjoh1@iit.edu>
+
+Licensed under GNU GPL v3
+
+---
 
 Video and picture albums for Django
 
@@ -6,6 +11,8 @@ albums 	  	  - Flat hierarchy of Album, Image, and Video models
 appearances 	  - Appearance models to link Users to AlbumConvertableItems
 favorites	  - Favorite models to allow Users to 'favorite'
 AlbumConvertableItems
+
+---
 
 Dependencies:
  * TODO
